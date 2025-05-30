@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+
+  postgres:
+    image: postgres:15
+    container_name: power_crm
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cadastro
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
