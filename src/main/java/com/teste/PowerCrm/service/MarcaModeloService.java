@@ -4,6 +4,7 @@ import com.teste.PowerCrm.entity.Brand;
 import com.teste.PowerCrm.entity.Model;
 import com.teste.PowerCrm.repository.BrandRepository;
 import com.teste.PowerCrm.repository.ModelRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 @Service
 public class MarcaModeloService {
 
@@ -33,11 +34,12 @@ public class MarcaModeloService {
     public void sincronizarModeloEMarca() {
 
         if (possuiDadosDeMarcaEModelo()) {
+            log.info("Ja existe dados nas tabelas");
             return;
         }
 
         List<Map<String, String>> brands = fetchBrandsFromFipe();
-
+        log.info("Inserindo dados de Marca e Modelo ao iniciar aplicação");
         for (Map<String, String> brandMap : brands) {
             Brand brand = salvarOuAtualizarMarca(brandMap);
             sincronizarModeloComMarcaParaSalvarNaBase(brand);

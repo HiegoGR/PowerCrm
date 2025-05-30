@@ -7,8 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @SpringBootApplication
 @EnableCaching
@@ -20,10 +18,6 @@ public class PowerCrmApplication {
 
 	@Bean
 	public ApplicationRunner initMarcaModelo(MarcaModeloService marcaModeloService) {
-		return args -> {
-			Logger log = LoggerFactory.getLogger(PowerCrmApplication.class);
-			log.info("Inserindo dados de Marca e Modelo ao iniciar aplicação");
-			marcaModeloService.sincronizarModeloEMarca();
-		};
+		return args -> marcaModeloService.sincronizarModeloEMarca();
 	}
 }

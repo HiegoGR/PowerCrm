@@ -23,7 +23,7 @@ public class FipeConsumer {
     }
 
     @RabbitListener(queues = RabbitMQConfig.FIPE_QUEUE)
-    public void process2(FipeRequestDTO msg) {
+    public void process(FipeRequestDTO msg) {
         log.info("Recebido da fila: {}", msg);
         Optional<Vehicle> vehicleOpt = vehicleRepository.findById(msg.getVehicleId());
 
