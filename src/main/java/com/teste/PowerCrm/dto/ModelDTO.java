@@ -14,6 +14,6 @@ public class ModelDTO {
 
     private String name;
 
-    private Brand brand;
+    private BrandDTO brand;
 
 }

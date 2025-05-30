@@ -121,3 +121,9 @@ A aplicação realiza processamento assíncrono usando RabbitMQ e versionamento 
       ```http://localhost:8080/swagger-ui/index.html```  
 
 
+### Referencias 
+- https://start.spring.io/
+- https://springdoc.org/#Introduction
+- https://www.baeldung.com/liquibase-refactor-schema-of-java-app
+- https://readme.so/editor
+  - Chat Gpt ajudou em melhorar o texto descrito no Readme
