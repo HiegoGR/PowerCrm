@@ -1,7 +1,7 @@
 
 # Teste PowerCrm
 
-Este projeto é uma aplicação desenvolvida com Java 17 e Spring Boot para gerenciar usuários, veículos e integração com a API da Tabela FIPE(https://deividfortuna.github.io/fipe/)
+Este projeto foi desenvolvido com Java 17 e Spring Boot para gerenciar usuários, veículos e integração com a API da Tabela FIPE(https://deividfortuna.github.io/fipe/)
 .
 A aplicação realiza processamento assíncrono usando RabbitMQ e versionamento de banco com Liquibase
 
