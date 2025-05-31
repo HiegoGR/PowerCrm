@@ -1,6 +1,7 @@
 package com.teste.PowerCrm.controller;
 
 import com.teste.PowerCrm.dto.BrandDTO;
+import com.teste.PowerCrm.dto.BrandWithModelsDTO;
 import com.teste.PowerCrm.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +29,10 @@ public class BrandController {
         return brandService.buscarPorId(idBrand)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/by-models/{idBrand}")
+    public ResponseEntity<BrandWithModelsDTO> buscarModelosPorMarca(@PathVariable Long idBrand) {
+        return ResponseEntity.ok(brandService.buscarMarcaComModelos(idBrand));
     }
 }

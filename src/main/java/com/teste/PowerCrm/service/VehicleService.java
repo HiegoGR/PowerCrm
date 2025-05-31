@@ -55,30 +55,13 @@ public class VehicleService  extends CrudPadraoService<Vehicle, VehicleDTO>{
     @Override
     public VehicleDTO salvar(VehicleDTO dto) {
 
-        if (vehicleRepository.existsByPlate(dto.getPlate())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Placa já cadastrada.");
-        }
+        existePlacaCadastrada(dto.getPlate());
+        User user = buscarUsuario(dto.getUserId());
+        Brand brand = buscarMarca(dto.getBrandId());
+        Model model = buscarModelo(dto.getModelId());
 
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + dto.getUserId() + " não encontrado"));
-
-        Brand brand = brandRepository.findById(dto.getBrandId())
-                .orElseThrow(() -> new EntityNotFoundException("Marca com ID " + dto.getBrandId() + " não encontrada"));
-
-        Model model = modelRepository.findById(dto.getModelId())
-                .orElseThrow(() -> new EntityNotFoundException("Modelo com ID " + dto.getModelId() + " não encontrado"));
-
-        if (!model.getBrand().getId().equals(brand.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O modelo informado não pertence à marca selecionada");
-        }
-
-        Optional<String> codigoAnoOpt = fipeService.buscarCodigoAnoModeloNaFipe(brand.getId(), model.getId(), dto.getYear());
-
-        if (codigoAnoOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ano do modelo não é válido na FIPE");
-        }
-
-        String codigoAnoModelo = codigoAnoOpt.get();
+        validarModeloComMarca(model, brand);
+        String codigoAnoModelo = validarAnoNaFipe(brand.getId(), model.getId(), dto.getYear());
 
         Vehicle entity = vehicleMapper.toEntity(dto);
         entity.setUser(user);
@@ -93,6 +76,22 @@ public class VehicleService  extends CrudPadraoService<Vehicle, VehicleDTO>{
         return vehicleMapper.toDTO(saved);
     }
 
+    @Override
+    public VehicleDTO atualizar(Long id, VehicleDTO dto) {
+
+        User user = buscarUsuario(dto.getUserId());
+        Brand brand = buscarMarca(dto.getBrandId());
+        Model model = buscarModelo(dto.getModelId());
+
+        Vehicle entity = vehicleMapper.toEntity(dto);
+        entity.setId(id);
+        entity.setUser(user);
+        entity.setBrand(brand);
+        entity.setModel(model);
+
+        Vehicle updated = vehicleRepository.save(entity);
+        return vehicleMapper.toDTO(updated);
+    }
 
     @Cacheable("vehicleList")
     @Override
@@ -104,6 +103,38 @@ public class VehicleService  extends CrudPadraoService<Vehicle, VehicleDTO>{
     @Override
     public Optional<VehicleDTO> buscarPorId(Long id) {
         return super.buscarPorId(id);
+    }
+
+    private void existePlacaCadastrada(String plate) {
+        if (vehicleRepository.existsByPlate(plate)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Placa já cadastrada.");
+        }
+    }
+
+    private User buscarUsuario(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado"));
+    }
+
+    private Brand buscarMarca(Long id) {
+        return brandRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Marca com ID " + id + " não encontrada"));
+    }
+
+    private Model buscarModelo(Long id) {
+        return modelRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Modelo com ID " + id + " não encontrado"));
+    }
+
+    private void validarModeloComMarca(Model model, Brand brand) {
+        if (!model.getBrand().getId().equals(brand.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O modelo informado não pertence à marca selecionada");
+        }
+    }
+
+    private String validarAnoNaFipe(Long brandId, Long modelId, int ano) {
+        return fipeService.buscarCodigoAnoModeloNaFipe(brandId, modelId, ano)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ano do modelo não é válido na FIPE"));
     }
 
 }

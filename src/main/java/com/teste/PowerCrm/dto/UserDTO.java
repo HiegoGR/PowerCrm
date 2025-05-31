@@ -1,5 +1,6 @@
 package com.teste.PowerCrm.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -41,5 +42,6 @@ public class UserDTO {
 
     private Boolean status;
 
+    @Schema(hidden = true)
     private List<VehicleDTO> vehicles;
 }

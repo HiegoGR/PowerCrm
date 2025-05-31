@@ -4,8 +4,9 @@ import com.teste.PowerCrm.dto.UserDTO;
 import com.teste.PowerCrm.entity.User;
 import com.teste.PowerCrm.mapper.UserMapper;
 import com.teste.PowerCrm.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,8 +15,11 @@ import java.util.List;
 @Service
 public class UserService extends CrudPadraoService<User, UserDTO>{
 
+    private final UserRepository userRepository;
+
     protected UserService(UserRepository userRepository, UserMapper userMapper) {
         super(userRepository, userMapper::toEntity, userMapper::toDTO);
+        this.userRepository = userRepository;
     }
 
     public List<UserDTO> buscarPorPeriodo(LocalDate inicio, LocalDate fim) {
@@ -31,10 +35,20 @@ public class UserService extends CrudPadraoService<User, UserDTO>{
     }
 
     @Override
-    public UserDTO atualizar(Long id, UserDTO dto) {
-        getRepository().findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
+    public UserDTO salvar(UserDTO dto) {
+        jaExisteDadosCadastrados(dto);
+        return super.salvar(dto);
+    }
 
-        return super.atualizar(id, dto);
+    public void jaExisteDadosCadastrados(UserDTO dto){
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já cadastrado.");
+        }
+
+        if (userRepository.existsByCpf(dto.getCpf())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado.");
+        }
+
     }
 }
