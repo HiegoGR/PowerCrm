@@ -1,13 +1,17 @@
 package com.teste.PowerCrm.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "vehicle")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vehicle {
 
     @Id
@@ -40,4 +44,16 @@ public class Vehicle {
     private Model model;
 
     private Double fipePrice;
+
+    public Vehicle(String plate, Double advertisedPrice, Integer year, LocalDateTime createdAt,
+                   User user, Brand brand, Model model, Double fipePrice) {
+        this.plate = plate;
+        this.advertisedPrice = advertisedPrice;
+        this.year = year;
+        this.createdAt = createdAt;
+        this.user = user;
+        this.brand = brand;
+        this.model = model;
+        this.fipePrice = fipePrice;
+    }
 }

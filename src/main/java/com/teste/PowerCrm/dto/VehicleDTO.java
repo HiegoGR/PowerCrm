@@ -33,5 +33,17 @@ public class VehicleDTO {
 
     private Long modelId;
 
-    private Long fipePrice;
+    private Double fipePrice;
+
+    public VehicleDTO(String plate, Double advertisedPrice, Integer year, LocalDateTime createdAt,
+                      Long userId, Long brandId, Long modelId, Double fipePrice) {
+        this.plate = plate;
+        this.advertisedPrice = advertisedPrice;
+        this.year = year;
+        this.createdAt = createdAt;
+        this.userId = userId;
+        this.brandId = brandId;
+        this.modelId = modelId;
+        this.fipePrice = fipePrice;
+    }
 }

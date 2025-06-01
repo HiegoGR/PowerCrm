@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 @EnableCaching
@@ -17,6 +18,7 @@ public class PowerCrmApplication {
 	}
 
 	@Bean
+	@Profile("!test")
 	public ApplicationRunner initMarcaModelo(MarcaModeloService marcaModeloService) {
 		return args -> marcaModeloService.sincronizarModeloEMarca();
 	}

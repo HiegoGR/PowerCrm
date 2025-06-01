@@ -44,4 +44,19 @@ public class UserDTO {
 
     @Schema(hidden = true)
     private List<VehicleDTO> vehicles;
+
+    public UserDTO(String name, String email, String phone, String cpf,
+                   String zipCode, String address, String number, String complement,
+                   LocalDateTime createdAt, Boolean status) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.cpf = cpf;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.number = number;
+        this.complement = complement;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
 }

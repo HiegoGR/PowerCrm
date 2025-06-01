@@ -1,14 +1,18 @@
 package com.teste.PowerCrm.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
 @Entity
 @Table(name = "user_entity")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -41,4 +45,19 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> vehicles;
+
+    public User(String name, String email, String phone,
+                String cpf, String zipCode, String address, String number,
+                String complement, LocalDateTime createdAt, Boolean status) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.cpf = cpf;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.number = number;
+        this.complement = complement;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
 }
