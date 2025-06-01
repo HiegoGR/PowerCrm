@@ -53,7 +53,7 @@ A aplicação realiza processamento assíncrono usando RabbitMQ e versionamento 
     - Java 17 instalado ou selecionado via IDE (como IntelliJ).
     - Docker instalado e em execução na máquina.
 
-- Para configurar os containers do PostgreSQL e RabbitMQ, localize o arquivo executarDocker.bat na raiz do projeto e dê dois cliques para executá-lo. Esse script iniciará automaticamente os serviços necessários via Docker.
+- Para configurar os containers do PostgreSQL e RabbitMQ, localize o arquivo ```executarDocker.bat``` na raiz do projeto e dê dois cliques para executá-lo. Esse script iniciará automaticamente os serviços necessários via Docker.
 
     - Após isso, você poderá:
     - Executar o projeto normalmente pela sua IDE ou linha de comando.
@@ -65,6 +65,7 @@ A aplicação realiza processamento assíncrono usando RabbitMQ e versionamento 
         - Usuário: rabbitmq
         - Senha: rabbitmq
 
+Obs.: Abra o Docker e verifique se as instâncias estão inicializadas. Caso não estejam, você pode iniciá-las manualmente clicando no botão "Play".
 
 ## Funcionalidades
 

@@ -34,8 +34,8 @@ public class UserServiceIT {
 
     @BeforeEach
     public void setup() {
-        userDTO = new UserDTO("Athos Silva","athos@gmail.com","12345678901",
-                "31988889999", "Avenida Vilarinho","104", "",
+        userDTO = new UserDTO("Athos Silva","athos@gmail.com","31988889999",
+                "12345678901","Avenida Vilarinho","104", "",
                 "31615-250", LocalDateTime.now(), Boolean.TRUE);
 
         usuarioSalvoBase = userService.salvar(userDTO);

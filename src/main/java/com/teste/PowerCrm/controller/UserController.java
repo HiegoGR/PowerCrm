@@ -38,6 +38,12 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<List<UserDTO>> buscarPorStatus(@RequestParam(required = false)
+                                                                        Boolean status) {
+        return ResponseEntity.ok(userService.listarUsuarioPorStatus(status));
+    }
+
     @PutMapping("/{idUser}")
     public ResponseEntity<UserDTO> atualizarUsuario(@PathVariable Long idUser, @Valid @RequestBody UserDTO dto){
         UserDTO newDto = userService.atualizar(idUser,dto);

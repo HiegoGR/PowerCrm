@@ -7,6 +7,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,6 +55,8 @@ public class FipeService {
                     new ParameterizedTypeReference<>() {}
             );
             return Optional.ofNullable(response.getBody());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            throw new RuntimeException("Erro ao consultar FIPE: " + e.getStatusCode() + " - " + e.getResponseBodyAsString(), e);
         } catch (RestClientException e) {
             return Optional.empty();
         }

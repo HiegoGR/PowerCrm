@@ -11,15 +11,19 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService extends CrudPadraoService<User, UserDTO>{
 
     private final UserRepository userRepository;
 
+    private final UserMapper userMapper;
+
     protected UserService(UserRepository userRepository, UserMapper userMapper) {
         super(userRepository, userMapper::toEntity, userMapper::toDTO);
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public List<UserDTO> buscarPorPeriodo(LocalDate inicio, LocalDate fim) {
@@ -31,6 +35,20 @@ public class UserService extends CrudPadraoService<User, UserDTO>{
                 .findAllByCreatedAtBetween(dataInicio, dataFim)
                 .stream()
                 .map(getEntityToDto())
+                .toList();
+    }
+
+    public List<UserDTO> listarUsuarioPorStatus(Boolean status) {
+        List<User> usuarios;
+
+        if (Objects.isNull(status)) {
+            usuarios = userRepository.findAll();
+        } else {
+            usuarios = userRepository.findByStatus(status);
+        }
+
+        return usuarios.stream()
+                .map(userMapper::toDTO)
                 .toList();
     }
 
