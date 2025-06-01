@@ -46,7 +46,7 @@ A aplicação realiza processamento assíncrono usando RabbitMQ e versionamento 
 
 - Depois que realizar o clone do repositório em sua maquina. Abra o projeto na sua IDE execute o comando
 
-  ```mvn clean package```
+  ```mvn clean install```
 
 ### Observações Importantes
 - Certifique-se de que seu ambiente está configurado corretamente:
